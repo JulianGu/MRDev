@@ -56,7 +56,6 @@ void createTable(double height, double width, double deep, Vector2D origin, vect
 		table[3].setColor(0.6,0.6,0.15,1);
 	}
 }
-
 void rotateTable(vector<Face> &table)
 {
 	double width=(table[0].getMaxVertex()-table[0].getMinVertex()).y;
@@ -64,7 +63,6 @@ void rotateTable(vector<Face> &table)
 	table[1].setBase(table[1].getBase()*Transformation3D(0,0,0,Y_AXIS,PI/2));
 	table[2].setBase(table[2].getBase()*Transformation3D(-width,0,width,Y_AXIS,PI/2));
 }
-
 void createWardrobe(double height, double width, double deep, Vector2D origin, vector <Face> &wardrobe)
 {
 	wardrobe.resize(5);

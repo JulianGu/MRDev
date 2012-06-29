@@ -35,6 +35,7 @@ QuadrotorSim *quadrotor;
 void CreateWorldEuitiLab(string filename);
 void CreateWorldBuilding(string filename);
 void CreateWorldRobocityFair(string filename);
+void CreateWorldDisamLab(string filename);
 
 void InitWorld1();
 void InitWorldColumns();
@@ -58,12 +59,14 @@ int main(int argc, char* argv[])
 	glutTimerFunc(100,OnTimer,0);
 	scene.init();
 
-//		string filename="data/euitilab.world";
+//	string filename="data/building.world";
+//	string filename="data/euitilab.world";
 //	string filename="data/disamLab.world";
 	string filename="data/robocity.world";
+
 	CreateWorldRobocityFair(filename);
 //	CreateWorldEuitiLab(filename);
-//	string filename="building.world";
+//	CreateWorldDisamLab(filename);
 //	CreateWorldBuilding(filename);
 	StreamFile myfile(filename,true);
 	myfile.read(&world);
@@ -195,7 +198,6 @@ void OnMouseMove(int x,int y)
 	
 	glutPostRedisplay();
 }
-
 void InitWorldSquaredRingWalls()
 {
 	//Intializing test environment Faces included in a FacePart
@@ -244,8 +246,6 @@ void InitWorldSquaredRingWalls()
 
 	world+=building;
 }
-
-
 void InitWorldSquaredRingNoWalls()
 {
 	//Intializing test environment Faces included in a FacePart
@@ -271,7 +271,6 @@ void InitWorldSquaredRingNoWalls()
 
 	world+=building;
 }
-
 void InitWorld3()
 {
 	//Intializing test environment Faces included in a FacePart
@@ -296,7 +295,6 @@ void InitWorld3()
 
 	world+=building;
 }
-
 void InitWorldColumns()
 {
 	//Intializing test environment Faces included in a FacePart
