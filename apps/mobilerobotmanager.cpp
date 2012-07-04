@@ -32,6 +32,7 @@ bool MobileRobotManager::step()
 	
 	if(robot->getOdometry(odom)){	
 		robot->getPose3D(realPose);
+		control.setOdometryData(odom);
 		groundTraj.push_back(realPose.position);
 		
 		static Odometry lastOdom=odom;
@@ -48,6 +49,7 @@ bool MobileRobotManager::step()
 
 	if(robot->getLaserData(laserData)){
 		localizer.observe(laserData);
+		control.setLaserData(laserData);
 	}
 	else
 	{

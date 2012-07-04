@@ -6,6 +6,7 @@
 #include <vector>
 #include "localizer.h"
 #include "controlmanager.h"
+#include "controlmanagerjulian.h"
 
 using namespace mr;
 using namespace std;
@@ -16,7 +17,7 @@ public:
 	MobileRobot* robot;
 	MobileRobot* robotViz;
 	Localizer localizer;
-	ControlManager control;
+	ControlManagerJulian control;
 	Path3D groundTraj;
 
 	MobileRobotManager(){
