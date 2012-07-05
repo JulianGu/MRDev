@@ -34,6 +34,9 @@ public:
 	void Timer(float time)
 	{
 		simulator.getWorld()->simulate(0.020);
+		//Pose3D realPose;
+		//simulator.getRobot(0)->getPose3D(realPose);
+		//cout<<realPose.position<<endl;
 	}	
 	void Key(unsigned char key)
 	{

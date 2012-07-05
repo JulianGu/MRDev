@@ -21,7 +21,7 @@ void ControlManagerJulian::keyDown(unsigned char key)
 		speed-=0.05f;
 	else if(key=='w')
 		speed+=0.05f;
-	else if(key=='m')
+	else if(key=='c')
 		manualControl=!manualControl;
 	else 
 	{
@@ -43,7 +43,7 @@ void ControlManagerJulian::computeSpeed(float& forward,float& turn)
 	if(!manualControl)
 	{
 		trajFollow.getSpeed(speed,rot);
-		reactive.getSpeed(speed,rot);
+		//reactive.getSpeed(speed,rot);
 	}
 
 	if(speed>maxSpeed)speed=maxSpeed;
