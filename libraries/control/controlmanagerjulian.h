@@ -16,9 +16,9 @@ public:
 	ControlManagerJulian();
 	void getSpeed(float& forward,float& turn);
 	void keyDown(unsigned char key);
-	void setOdometryData(Odometry& odom);
+	void setPoseData(Pose3D& pose);
 	void setLaserData(LaserData& laserData);
-
+	void drawGL(void);
 
 protected:
 	void computeSpeed(float& forward,float& turn);
@@ -30,7 +30,7 @@ private:
 	bool manualControl;
 	ControlTrajectoryJulian	trajFollow;
 	ControlReactiveJulian	reactive;
-	Odometry	odom;
+	Pose3D		pose;
 	LaserData	laserData;
 
 };

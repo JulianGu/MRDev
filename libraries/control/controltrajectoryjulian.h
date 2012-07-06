@@ -13,16 +13,17 @@ class ControlTrajectoryJulian
 {
 public:
 	ControlTrajectoryJulian();
-	virtual void getSpeed(float& forward,float& turn);
-	void setOdometryData(Odometry& odom);
+	virtual bool getSpeed(float& forward,float& turn);
+	void setPoseData(Pose3D& pose);
+	void setNextGoal(int next);
+	void drawGL(void);
 	
 protected:
-	void computeSpeed();
+	bool computeSpeed();
 
 private:
 	float speed,rot;
-	Odometry odom;
-	vector<Vector2D> path;
+	Pose3D pose;
+	Path2D path;
 	int nextGoal;
-	bool end;
 };

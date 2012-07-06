@@ -22,16 +22,19 @@ void ControlManagerJulian::keyDown(unsigned char key)
 	else if(key=='w')
 		speed+=0.05f;
 	else if(key=='c')
+	{
 		manualControl=!manualControl;
+		trajFollow.setNextGoal(0);
+	}
 	else 
 	{
 		speed=rot=0;
 	}
 }
-void ControlManagerJulian::setOdometryData(Odometry& odom)
+void ControlManagerJulian::setPoseData(Pose3D& pose)
 {
-	this->odom=odom;
-	trajFollow.setOdometryData(odom);
+	this->pose=pose;
+	trajFollow.setPoseData(pose);
 }
 void ControlManagerJulian::setLaserData(LaserData& laserData)
 {
@@ -42,7 +45,7 @@ void ControlManagerJulian::computeSpeed(float& forward,float& turn)
 {
 	if(!manualControl)
 	{
-		trajFollow.getSpeed(speed,rot);
+		manualControl=!trajFollow.getSpeed(speed,rot);
 		//reactive.getSpeed(speed,rot);
 	}
 
@@ -53,4 +56,8 @@ void ControlManagerJulian::computeSpeed(float& forward,float& turn)
 
 	forward=speed;
 	turn=rot;
+}
+void ControlManagerJulian::drawGL(void)
+{
+	trajFollow.drawGL();
 }

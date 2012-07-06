@@ -32,6 +32,7 @@ public:
 
 	Transformation3D getRobotPose(){return localizer.getEstimatedPose();}
 	void drawGL(){
+		control.drawGL();
 		groundTraj.drawGL();
 		localizer.drawGL();
 		if(robotViz){
