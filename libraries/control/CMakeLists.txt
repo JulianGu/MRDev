@@ -1,7 +1,8 @@
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
-ADD_LIBRARY(control STATIC  controlmanager.cpp
-				controlreactive.cpp
-				controltrajectory.cpp
+ADD_LIBRARY(control STATIC
+				#controlmanager.cpp
+				#controlreactive.cpp
+				#controltrajectory.cpp
 				controlmanagerjulian.cpp
 				controlreactivejulian.cpp
 				controltrajectoryjulian.cpp

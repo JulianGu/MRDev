@@ -16,6 +16,7 @@ public:
 	virtual bool getSpeed(float& forward,float& turn);
 	void setPoseData(Pose3D& pose);
 	void setNextGoal(int next);
+	void setErrors(float degrees=5, float meters=0.2);
 	void drawGL(void);
 	
 protected:
@@ -26,4 +27,5 @@ private:
 	Pose3D pose;
 	Path2D path;
 	int nextGoal;
+	float maxAngleError, maxDistanceError;
 };

@@ -3,28 +3,12 @@
 
 ControlTrajectoryJulian::ControlTrajectoryJulian()
 {
+	this->setErrors();
 	nextGoal=0;
 	speed=0;
 	rot=0;
-	path.setColor(0,0,0);
-	//Building path
-	/*path.push_back(Vector2D(8,8));
-	path.push_back(Vector2D(8,1));
-	path.push_back(Vector2D(1,1));
-	path.push_back(Vector2D(1,8));
-	//First floor
-	path.push_back(Vector2D(8,8));
-	path.push_back(Vector2D(8,1));
-	path.push_back(Vector2D(1,1));
-	path.push_back(Vector2D(1,8));
-	//Second floor
-	path.push_back(Vector2D(8,8));
-	path.push_back(Vector2D(8,1));
-	path.push_back(Vector2D(1,1));
-	path.push_back(Vector2D(1,8));
-	//Third floor
-	path.push_back(Vector2D(8,8));*/
-	
+	path.setColor(255,0,255);
+		
 	//Disam path
 	path.push_back(Vector2D(6.0,1.5));
 	path.push_back(Vector2D(7.8,1.5));
@@ -66,7 +50,17 @@ bool ControlTrajectoryJulian::computeSpeed()
 		angDiff+=2*PI;
 
 	//Cascade control
-	if (abs(angDiff)>=0.2)	//too orientation error
+	if(error.module()<maxDistanceError)	//near final point
+	{
+		speed=0.0;
+		rot=0.0;
+		++nextGoal;
+		if(nextGoal>=path.size())	//final point
+			return false;
+		else
+			return this->computeSpeed();
+	}
+	if (abs(angDiff)>=maxAngleError)	//too orientation error
 	{
 		speed=0.0;
 		if(angle>yaw)
@@ -76,22 +70,8 @@ bool ControlTrajectoryJulian::computeSpeed()
 	}
 	else
 	{
-		rot=0.5*angDiff;
-		if(error.module()>0.2)	//too position error
-		{
-			speed=1.0;
-		}
-		else	//near final point
-		{
-			nextGoal++;
-			if(nextGoal>=path.size())	//final point
-			{
-				speed=0.0;
-				rot=0.0;
-				return false;
-			}
-		}
-
+		rot=0.9*angDiff;
+		speed=1.0;	//too distance error
 	}
 	return true;
 }
@@ -102,4 +82,9 @@ void ControlTrajectoryJulian::setNextGoal(int next)
 void ControlTrajectoryJulian::drawGL()
 {
 	path.drawGL();
+}
+void ControlTrajectoryJulian::setErrors(float degrees, float meters)
+{
+	maxAngleError=degrees*DEG2RAD;
+	maxDistanceError=meters;
 }

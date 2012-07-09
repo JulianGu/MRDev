@@ -21,13 +21,13 @@ public:
 	void drawGL(void);
 
 protected:
-	void computeSpeed(float& forward,float& turn);
+	void computeSpeed();
 
 
 private:
 	float speed,rot;
 	float maxSpeed,maxRot;
-	bool manualControl;
+	bool automaticControl;
 	ControlTrajectoryJulian	trajFollow;
 	ControlReactiveJulian	reactive;
 	Pose3D		pose;

@@ -2,14 +2,17 @@
 #include <float.h>
 ControlManagerJulian::ControlManagerJulian()
 {
-	manualControl=true;
-	rot=speed=0;
+	automaticControl=false;
+	rot=0;
+	speed=0;
 	maxSpeed=2;
 	maxRot=1;
 }
 void ControlManagerJulian::getSpeed(float& forward,float& turn)
 {
-	computeSpeed(forward,turn);
+	computeSpeed();
+	forward=speed;
+	turn=rot;
 }
 void ControlManagerJulian::keyDown(unsigned char key)
 {
@@ -23,7 +26,7 @@ void ControlManagerJulian::keyDown(unsigned char key)
 		speed+=0.05f;
 	else if(key=='c')
 	{
-		manualControl=!manualControl;
+		automaticControl=!automaticControl;
 		trajFollow.setNextGoal(0);
 	}
 	else 
@@ -41,11 +44,11 @@ void ControlManagerJulian::setLaserData(LaserData& laserData)
 	this->laserData=laserData;
 	reactive.setLaserData(laserData);
 }
-void ControlManagerJulian::computeSpeed(float& forward,float& turn)
+void ControlManagerJulian::computeSpeed()
 {
-	if(!manualControl)
+	if(automaticControl)
 	{
-		manualControl=!trajFollow.getSpeed(speed,rot);
+		automaticControl=trajFollow.getSpeed(speed,rot);
 		//reactive.getSpeed(speed,rot);
 	}
 
@@ -53,9 +56,6 @@ void ControlManagerJulian::computeSpeed(float& forward,float& turn)
 	if(speed<-maxSpeed)speed=-maxSpeed;
 	if(rot>maxRot)rot=maxRot;
 	if(rot<-maxRot)rot=-maxRot;
-
-	forward=speed;
-	turn=rot;
 }
 void ControlManagerJulian::drawGL(void)
 {
