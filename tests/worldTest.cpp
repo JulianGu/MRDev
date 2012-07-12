@@ -61,12 +61,12 @@ int main(int argc, char* argv[])
 
 //	string filename="data/building.world";
 //	string filename="data/euitilab.world";
-//	string filename="data/disamLab.world";
-	string filename="data/robocity.world";
+	string filename="data/disamLab.world";
+//	string filename="data/robocity.world";
 
-	CreateWorldRobocityFair(filename);
+//	CreateWorldRobocityFair(filename);
 //	CreateWorldEuitiLab(filename);
-//	CreateWorldDisamLab(filename);
+	CreateWorldDisamLab(filename);
 //	CreateWorldBuilding(filename);
 	StreamFile myfile(filename,true);
 	myfile.read(&world);

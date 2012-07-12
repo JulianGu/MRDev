@@ -238,10 +238,10 @@ void CreateWorldDisamLab(string filename)
 	createTable(1.0, 1.10, 0.70,Vector2D(3.27,3.05),table5,true);
 
 	vector<Face> table6(3);	//Julian's table
-	createTable(1.0, 1.20, 0.70,Vector2D(4.91,0.0),table6,true);
+	createTable(1.0, 1.20, 0.70,Vector2D(5.21,0.0),table6,true);
 
 	vector<Face> table7(3);	//Urbano's table
-	createTable(1.0, 0.66, 0.70,Vector2D(4.91,1.20),table7,true);
+	createTable(1.0, 0.66, 0.70,Vector2D(5.21,1.20),table7,true);
 
 	vector<Face> table8(3);	//Alvaro's table
 	createTable(1.0, 1.10, 0.70,Vector2D(4.91,3.05),table8,true);
