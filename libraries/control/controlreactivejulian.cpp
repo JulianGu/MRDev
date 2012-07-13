@@ -1,6 +1,7 @@
 #include "controlreactivejulian.h"
 #include <float.h>
 
+//Constructor
 ControlReactiveJulian::ControlReactiveJulian()
 {
 	maxLeftRange=0;
@@ -16,32 +17,27 @@ ControlReactiveJulian::ControlReactiveJulian()
 	frontObstacle=false;
 	rightObstacle=false;
 }
+//Copy LaserData to ControlReactive
 void ControlReactiveJulian::setLaserData(LaserData& laserData)
 {
 	this->laserData=laserData;
 }
+//Copy pose to ControlReactive
 void ControlReactiveJulian::setPoseData(Pose3D& pose)
 {
 	this->pose=pose;
 }
+//Calculate the obstacles
 bool ControlReactiveJulian::compute(void)
 {
 	init();
 	computeLaserData();
 	if(minLeftRange<limit)
 		leftObstacle=true;
-	else
-		leftObstacle=false;
-
 	if(minFrontRange<limit)
 		frontObstacle=true;
-	else
-		frontObstacle=false;
-
 	if(minRightRange<limit)
 		rightObstacle=true;
-	else
-		rightObstacle=false;
 
 	if (frontObstacle)
 	{
@@ -57,13 +53,14 @@ bool ControlReactiveJulian::compute(void)
 				newPoint=getLeftPoint();
 		}
 		else
-			printf("ERROR: Robot stucked!\n");
+			LOG_ERROR("ERROR: Robot stucked! ");
 		return true;
 	}
 	else
 		return false;
 	
 }
+//Calculate max/min distances at left/front/right
 void ControlReactiveJulian::computeLaserData(void)
 {
 	int i=0;
@@ -92,7 +89,7 @@ void ControlReactiveJulian::computeLaserData(void)
 			leftAngles.push_back(angles[i]);
 		}
 		else
-			printf("ERROR: Angle of LaserData out of bounds");//ERROR
+			LOG_ERROR("ERROR: Angle of LaserData out of bounds ");
 	}
 
 	//Get max and min values
@@ -118,6 +115,7 @@ void ControlReactiveJulian::computeLaserData(void)
 			minLeftRange=leftRanges[i];
 	}
 }
+//Init data every step
 void ControlReactiveJulian::init(void)
 {
 	maxLeftRange=0;
@@ -130,20 +128,24 @@ void ControlReactiveJulian::init(void)
 	frontObstacle=false;
 	rightObstacle=false;
 }
+//Get a good point at the right of the actual position
 Vector2D ControlReactiveJulian::getRightPoint(void)
 {
 	Vector2D point=Vector2D(pose.position.x,pose.position.y);
 	double roll, pitch, yaw;
 	pose.orientation.getRPY(roll,pitch,yaw);
+	dist=minRightRange/2.0;
 	point.x+=dist*sin(yaw);
 	point.y-=dist*cos(yaw);
 	return point;
 }
+//Get a good point at the left of the actual position
 Vector2D ControlReactiveJulian::getLeftPoint(void)
 {
 	Vector2D point=Vector2D(pose.position.x,pose.position.y);
 	double roll, pitch, yaw;
 	pose.orientation.getRPY(roll,pitch,yaw);
+	dist=minLeftRange/2.0;
 	point.x-=dist*sin(yaw);
 	point.y+=dist*cos(yaw);
 	return point;

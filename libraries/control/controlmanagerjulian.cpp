@@ -1,5 +1,7 @@
 #include "controlmanagerjulian.h"
 #include <float.h>
+
+//Constructor
 ControlManagerJulian::ControlManagerJulian()
 {
 	automaticControl=false;

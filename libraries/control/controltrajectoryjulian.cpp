@@ -1,6 +1,7 @@
 #include "controltrajectoryjulian.h"
 #include <float.h>
 
+//Constructor
 ControlTrajectoryJulian::ControlTrajectoryJulian()
 {
 	this->setErrors();
@@ -24,10 +25,12 @@ bool ControlTrajectoryJulian::getSpeed(float& forward,float& turn)
 	turn=rot;
 	return automatic;
 }
+//Copy pose to ControlTrajectory
 void ControlTrajectoryJulian::setPoseData(Pose3D& pose)
 {
 	this->pose=pose;
 }
+//Calculates the speed/rot
 bool ControlTrajectoryJulian::computeSpeed()
 {
 	//Get orientation
@@ -84,6 +87,7 @@ void ControlTrajectoryJulian::changeRange(double &angle)
 	if(angle>PI)
 		angle-=2*PI;
 }
+//Add new point to the path (the next point)
 void ControlTrajectoryJulian::addPoint(Vector2D newPoint)
 {
 	path.points.insert(path.points.begin()+nextGoal,newPoint);
