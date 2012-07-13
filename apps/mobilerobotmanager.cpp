@@ -32,7 +32,8 @@ bool MobileRobotManager::step()
 	
 	if(robot->getOdometry(odom)){	
 		robot->getPose3D(realPose);
-		control.setPoseData(getRobotPose());
+		//control.setPoseData(getRobotPose());
+		control.setPoseData(realPose);
 		groundTraj.push_back(realPose.position);
 
 		static Odometry lastOdom=odom;

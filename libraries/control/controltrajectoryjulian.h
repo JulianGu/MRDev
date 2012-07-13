@@ -18,7 +18,9 @@ public:
 	void setNextGoal(int next);
 	void setErrors(float degrees=8, float meters=0.2);
 	void drawGL(void);
-	
+	void addPoint(Vector2D newPoint);
+	bool getBlockReactive(void){return blockReactive;}
+
 protected:
 	bool computeSpeed();
 	inline void changeRange(double& angle);
@@ -29,4 +31,5 @@ private:
 	Path2D path;
 	int nextGoal;
 	float maxAngleError, maxDistanceError;
+	bool blockReactive;
 };

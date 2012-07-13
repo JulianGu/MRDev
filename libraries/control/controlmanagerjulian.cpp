@@ -38,6 +38,7 @@ void ControlManagerJulian::setPoseData(Pose3D& pose)
 {
 	this->pose=pose;
 	trajFollow.setPoseData(pose);
+	reactive.setPoseData(pose);
 }
 void ControlManagerJulian::setLaserData(LaserData& laserData)
 {
@@ -48,8 +49,16 @@ void ControlManagerJulian::computeSpeed()
 {
 	if(automaticControl)
 	{
-		automaticControl=trajFollow.getSpeed(speed,rot);
-		//reactive.getSpeed(speed,rot);
+		if(trajFollow.getBlockReactive())
+		{
+			automaticControl=trajFollow.getSpeed(speed,rot);
+		}
+		else
+		{
+			if(reactive.compute())
+				trajFollow.addPoint(reactive.getNewPoint());
+			automaticControl=trajFollow.getSpeed(speed,rot);
+		}
 	}
 
 	if(speed>maxSpeed)speed=maxSpeed;

@@ -39,6 +39,7 @@ bool ControlTrajectoryJulian::computeSpeed()
 	changeRange(diffAng);
 	if(error.module()<maxDistanceError)	//near final point
 	{
+		blockReactive=false;
 		speed=0.0;
 		rot=0.0;
 		++nextGoal;
@@ -49,6 +50,7 @@ bool ControlTrajectoryJulian::computeSpeed()
 	}
 	if (abs(diffAng)>=maxAngleError)	//too orientation error
 	{
+		blockReactive=true;
 		speed=0.0;
 		if(diffAng>=0)
 			rot=-0.3;
@@ -57,7 +59,8 @@ bool ControlTrajectoryJulian::computeSpeed()
 	}
 	else
 	{
-		rot=0.9*diffAng;
+		blockReactive=false;
+		rot=-0.9*diffAng;
 		speed=0.3;	//too distance error
 	}
 	return true;
@@ -80,4 +83,8 @@ void ControlTrajectoryJulian::changeRange(double &angle)
 {
 	if(angle>PI)
 		angle-=2*PI;
+}
+void ControlTrajectoryJulian::addPoint(Vector2D newPoint)
+{
+	path.points.insert(path.points.begin()+nextGoal,newPoint);
 }

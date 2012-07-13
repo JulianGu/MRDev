@@ -44,8 +44,8 @@ bool Localizer::loadConfig(istream& is)
 void Localizer::drawGL(void)
 {
 	map.drawGL();
-	for(unsigned int i=0;i<particles.size();i++)
-		particles[i].drawGL();
+	//for(unsigned int i=0;i<particles.size();i++)
+	//	particles[i].drawGL();
 
 	estimatedPose.drawGL();
 	glPushMatrix();
