@@ -134,9 +134,17 @@ Vector2D ControlReactiveJulian::getRightPoint(void)
 	Vector2D point=Vector2D(pose.position.x,pose.position.y);
 	double roll, pitch, yaw;
 	pose.orientation.getRPY(roll,pitch,yaw);
-	dist=minRightRange/2.0;
-	point.x+=dist*sin(yaw);
-	point.y-=dist*cos(yaw);
+	if(minRightRange<=1.0)
+	{
+		dist=minRightRange-(1.25*limit);
+	}
+	else
+	{
+		dist=minRightRange/2.0;
+		point.x+=dist*sin(yaw);
+		point.y-=dist*cos(yaw);
+	}
+	LOG_INFO("New point: "<<dist<<"m (right)");
 	return point;
 }
 //Get a good point at the left of the actual position
@@ -145,8 +153,16 @@ Vector2D ControlReactiveJulian::getLeftPoint(void)
 	Vector2D point=Vector2D(pose.position.x,pose.position.y);
 	double roll, pitch, yaw;
 	pose.orientation.getRPY(roll,pitch,yaw);
-	dist=minLeftRange/2.0;
-	point.x-=dist*sin(yaw);
-	point.y+=dist*cos(yaw);
+	if(minLeftRange<=1.0)
+	{
+		dist=minLeftRange-(1.25*limit);
+	}
+	else
+	{
+		dist=minLeftRange/2.0;
+		point.x+=dist*sin(yaw);
+		point.y-=dist*cos(yaw);
+	}
+	LOG_INFO("New point: "<<dist<<"m (left)");
 	return point;
 }
