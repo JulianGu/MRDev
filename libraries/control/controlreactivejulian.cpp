@@ -54,11 +54,8 @@ bool ControlReactiveJulian::compute(void)
 		}
 		else
 			LOG_ERROR("ERROR: Robot stucked! ");
-		return true;
 	}
-	else
-		return false;
-	
+	return frontObstacle;
 }
 //Calculate max/min distances at left/front/right
 void ControlReactiveJulian::computeLaserData(void)
@@ -73,17 +70,17 @@ void ControlReactiveJulian::computeLaserData(void)
 	//Divide data into 3 packets. Angles->[-90,-30](-30,30)[30,90]
 	for(int i=0;i<angles.size();i++)
 	{
-		if(angles[i]<=(-30*DEG2RAD))
+		if(angles[i]<=(-45*DEG2RAD))
 		{
 			rightRanges.push_back(ranges[i]);
 			rightAngles.push_back(angles[i]);
 		}
-		else if (angles[i]>(-30*DEG2RAD) && angles[i]<(30*DEG2RAD))
+		else if (angles[i]>(-45*DEG2RAD) && angles[i]<(45*DEG2RAD))
 		{
 			frontRanges.push_back(ranges[i]);
 			frontAngles.push_back(angles[i]);
 		}
-		else if (angles[i]>=(30*DEG2RAD))
+		else if (angles[i]>=(45*DEG2RAD))
 		{
 			leftRanges.push_back(ranges[i]);
 			leftAngles.push_back(angles[i]);
@@ -135,15 +132,13 @@ Vector2D ControlReactiveJulian::getRightPoint(void)
 	double roll, pitch, yaw;
 	pose.orientation.getRPY(roll,pitch,yaw);
 	if(minRightRange<=1.0)
-	{
 		dist=minRightRange-(1.25*limit);
-	}
+	else if(minRightRange>=2.0)
+		dist=1.0;
 	else
-	{
 		dist=minRightRange/2.0;
-		point.x+=dist*sin(yaw);
-		point.y-=dist*cos(yaw);
-	}
+	point.x+=dist*sin(yaw);
+	point.y-=dist*cos(yaw);
 	LOG_INFO("New point: "<<dist<<"m (right)");
 	return point;
 }
@@ -154,15 +149,13 @@ Vector2D ControlReactiveJulian::getLeftPoint(void)
 	double roll, pitch, yaw;
 	pose.orientation.getRPY(roll,pitch,yaw);
 	if(minLeftRange<=1.0)
-	{
 		dist=minLeftRange-(1.25*limit);
-	}
+	else if(minLeftRange>=2.0)
+		dist=1.0;
 	else
-	{
 		dist=minLeftRange/2.0;
-		point.x+=dist*sin(yaw);
-		point.y-=dist*cos(yaw);
-	}
+	point.x-=dist*sin(yaw);
+	point.y+=dist*cos(yaw);
 	LOG_INFO("New point: "<<dist<<"m (left)");
 	return point;
 }
