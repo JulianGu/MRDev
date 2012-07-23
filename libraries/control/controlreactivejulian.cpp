@@ -10,20 +10,33 @@ ControlReactiveJulian::ControlReactiveJulian()
 	minLeftRange=100;
 	minFrontRange=100;
 	minRightRange=100;
-	limit=0.6;	//If we are near from an obstacle the control works properly
+	limit=0.4;	//If we are near from an obstacle the control works properly
 	dist=0.5;	//Distance to the new point
 	newPoint=Vector2D(0,0);
 	leftObstacle=false;
 	frontObstacle=false;
 	rightObstacle=false;
 }
+//Init data every step
+void ControlReactiveJulian::init(void)
+{
+	maxLeftRange=0;
+	maxFrontRange=0;
+	maxRightRange=0;
+	minLeftRange=100;
+	minFrontRange=100;
+	minRightRange=100;
+	leftObstacle=false;
+	frontObstacle=false;
+	rightObstacle=false;
+}
 //Copy LaserData to ControlReactive
-void ControlReactiveJulian::setLaserData(LaserData& laserData)
+void ControlReactiveJulian::setLaserData(LaserData laserData)
 {
 	this->laserData=laserData;
 }
 //Copy pose to ControlReactive
-void ControlReactiveJulian::setPoseData(Pose3D& pose)
+void ControlReactiveJulian::setPoseData(Pose3D pose)
 {
 	this->pose=pose;
 }
@@ -111,19 +124,6 @@ void ControlReactiveJulian::computeLaserData(void)
 		if(leftRanges[i]<minLeftRange)
 			minLeftRange=leftRanges[i];
 	}
-}
-//Init data every step
-void ControlReactiveJulian::init(void)
-{
-	maxLeftRange=0;
-	maxFrontRange=0;
-	maxRightRange=0;
-	minLeftRange=100;
-	minFrontRange=100;
-	minRightRange=100;
-	leftObstacle=false;
-	frontObstacle=false;
-	rightObstacle=false;
 }
 //Get a good point at the right of the actual position
 Vector2D ControlReactiveJulian::getRightPoint(void)

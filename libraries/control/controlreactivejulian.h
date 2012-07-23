@@ -14,8 +14,8 @@ class ControlReactiveJulian
 public:
 	void init(void);
 	ControlReactiveJulian();
-	void setLaserData(LaserData& laserData);
-	void setPoseData(Pose3D& pose);
+	void setLaserData(LaserData laserData);
+	void setPoseData(Pose3D pose);
 	Vector2D getNewPoint(void){return newPoint;}
 	bool compute(void);
 

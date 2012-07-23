@@ -32,15 +32,14 @@ bool MobileRobotManager::step()
 	
 	if(robot->getOdometry(odom)){	
 		robot->getPose3D(realPose);
-		control.setPoseData(getRobotPose());
 		//control.setPoseData(realPose);
 		groundTraj.push_back(realPose.position);
 
 		static Odometry lastOdom=odom;
-		//double noise=0.05;
-		//Pose3D inc=odom.getIncrement(lastOdom,noise);
+		double noise=0.05;
+		Pose3D inc=odom.getIncrement(lastOdom,noise);
 		lastOdom=odom;
-		//localizer.move(inc,noise*1);
+		localizer.move(inc,noise);
 	}
 	else 
 	{
@@ -58,7 +57,9 @@ bool MobileRobotManager::step()
 		return false;
 	}
 	localizer.resample();
-	robotViz->setAbsoluteT3D(localizer.getEstimatedPose());
+	Pose3D localizerPose=localizer.getEstimatedPose();
+	control.setPoseData(localizerPose);
+	robotViz->setAbsoluteT3D(localizerPose);
 }			
 float MobileRobotManager::getError()
 {
