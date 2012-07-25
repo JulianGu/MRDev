@@ -10,7 +10,7 @@ ControlReactiveJulian::ControlReactiveJulian()
 	minLeftRange=100;
 	minFrontRange=100;
 	minRightRange=100;
-	limit=0.4;	//If we are near from an obstacle the control works properly
+	limit=0.6;	//If we are near from an obstacle the control works properly
 	dist=0.5;	//Distance to the new point
 	newPoint=Vector2D(0,0);
 	leftObstacle=false;
