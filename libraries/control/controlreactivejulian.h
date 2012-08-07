@@ -12,7 +12,7 @@ using namespace std;
 class ControlReactiveJulian
 {
 public:
-	void init(void);
+	
 	ControlReactiveJulian();
 	void setLaserData(LaserData laserData);
 	void setPoseData(Pose3D pose);
@@ -23,6 +23,7 @@ protected:
 	void computeLaserData(void);
 	Vector2D getRightPoint(void);
 	Vector2D getLeftPoint(void);
+	void init(void);
 
 private:
 	float dist;
