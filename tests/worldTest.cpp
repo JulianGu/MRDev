@@ -49,6 +49,7 @@ int main(int argc, char* argv[])
 	mrcoreInit();
 	//GL Initialization stuff
 	glutInit(&argc, argv);
+	glutInitWindowPosition(0,0);
 	glutInitWindowSize(800,600);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutCreateWindow("GL");
@@ -58,6 +59,7 @@ int main(int argc, char* argv[])
 	glutKeyboardFunc(OnKeyboardDown);
 	glutTimerFunc(100,OnTimer,0);
 	scene.init();
+	scene.BackgroundColor(0.5,0.5,0.5);
 
 //	string filename="data/building.world";
 //	string filename="data/euitilab.world";

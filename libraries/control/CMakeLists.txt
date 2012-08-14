@@ -6,6 +6,7 @@ ADD_LIBRARY(control STATIC
 				controlmanagerjulian.cpp
 				controlreactivejulian.cpp
 				controltrajectoryjulian.cpp
+				controlreplannerjulian.cpp
 				)
 
 

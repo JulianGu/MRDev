@@ -20,6 +20,7 @@ public:
 	void drawGL(void);
 	void addPoint(Vector2D newPoint);
 	bool getBlockReactive(void){return blockReactive;}
+	Path3D path;
 
 protected:
 	bool computeSpeed();
@@ -28,7 +29,7 @@ protected:
 private:
 	float speed,rot;
 	Pose3D pose;
-	Path2D path;
+	
 	int nextGoal;
 	float maxAngleError, maxDistanceError;
 	bool blockReactive;

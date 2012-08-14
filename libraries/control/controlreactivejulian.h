@@ -12,27 +12,24 @@ using namespace std;
 class ControlReactiveJulian
 {
 public:
-	
 	ControlReactiveJulian();
 	void setLaserData(LaserData laserData);
 	void setPoseData(Pose3D pose);
-	Vector2D getNewPoint(void){return newPoint;}
 	bool compute(void);
+	void getObstaclesDistances(bool& leftObstacle, bool& frontObstacle, bool& rightObstacle, double& minLeftRange, double& minRightRange);
 
 protected:
 	void computeLaserData(void);
-	Vector2D getRightPoint(void);
-	Vector2D getLeftPoint(void);
 	void init(void);
 
 private:
-	float dist;
+	
 	LaserData laserData;
 	Pose3D pose;
 	double maxLeftRange,maxFrontRange,maxRightRange;
 	double minLeftRange,minFrontRange,minRightRange;
-	double limit;
+	double maxDistanceObstacle;
 	bool leftObstacle, frontObstacle, rightObstacle;
-	Vector2D newPoint;
+	
 	
 };

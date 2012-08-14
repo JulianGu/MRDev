@@ -12,11 +12,11 @@ ControlTrajectoryJulian::ControlTrajectoryJulian()
 		
 	//Disam path
 	double x=6.3, y=1.5;
-	path.push_back(Vector2D(x,y));
-	path.push_back(Vector2D(x+1.2,y));
-	path.push_back(Vector2D(x+1.7,y+2));
-	path.push_back(Vector2D(x+2.3,y+2));
-	path.push_back(Vector2D(x+0.2,y));
+	path.push_back(Vector3D(x,y));
+	path.push_back(Vector3D(x+1.2,y));
+	path.push_back(Vector3D(x+1.7,y+2));
+	path.push_back(Vector3D(x+2.3,y+2));
+	path.push_back(Vector3D(x+0.2,y));
 }
 bool ControlTrajectoryJulian::getSpeed(float& forward,float& turn)
 {
@@ -36,7 +36,7 @@ bool ControlTrajectoryJulian::computeSpeed()
 	//Get orientation
 	double roll,pitch,yaw;
 	pose.orientation.getRPY(roll,pitch,yaw);
-	Vector2D error=path[nextGoal]-Vector2D(pose.position.x,pose.position.y);
+	Vector2D error=Vector2D(path[nextGoal].x,path[nextGoal].y)-Vector2D(pose.position.x,pose.position.y);
 	double wantedAng=error.argument();
 	double diffAng=Angle::difference(yaw,wantedAng);
 	changeRange(diffAng);
@@ -90,5 +90,10 @@ void ControlTrajectoryJulian::changeRange(double &angle)
 //Add new point to the path (the next point)
 void ControlTrajectoryJulian::addPoint(Vector2D newPoint)
 {
-	path.points.insert(path.points.begin()+nextGoal,newPoint);
+	vector<Vector3D> copy(path.size());
+	for(int i=0;i<copy.size();i++)
+		copy[i]=path[i];
+	copy.insert(copy.begin()+nextGoal,Vector3D(newPoint.x,newPoint.y));
+	path=Path3D(copy);
+	path.setColor(255,0,255);
 }

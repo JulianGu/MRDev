@@ -12,6 +12,7 @@ public:
 	{
 		scene.addObject(simulator.getWorld());
 		scene.SetViewPoint(35,160,25);	
+		scene.BackgroundColor(0.5,0.5,0.5);
 		numRobot=-1;
 	}
 	void Draw(void)

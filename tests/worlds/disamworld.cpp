@@ -42,9 +42,9 @@ void createTable(double height, double width, double deep, Vector2D origin, vect
 	table[2]=table[1];
 	table[2].setBase(Transformation3D(origin.x,origin.y+width,0,X_AXIS,PI/2));
 
-	table[0].setColor(0.6,0.6,0.15,1);
-	table[1].setColor(0.6,0.6,0.15,1);
-	table[2].setColor(0.6,0.6,0.15,1);
+	table[0].setColor(0.6f,0.6f,0.15f,1.0f);
+	table[1].setColor(0.6f,0.6f,0.15f,1.0f);
+	table[2].setColor(0.6f,0.6f,0.15f,1.0f);
 	if (tablon)
 	{
 		table.push_back(Face());
@@ -53,7 +53,7 @@ void createTable(double height, double width, double deep, Vector2D origin, vect
 		table[3].addVertex(height-0.20,0.0);
 		table[3].addVertex(height-0.20,width);
 		table[3].addVertex(0.0,width);
-		table[3].setColor(0.6,0.6,0.15,1);
+		table[3].setColor(0.6f,0.6f,0.15f,1.0f);
 	}
 }
 void rotateTable(vector<Face> &table)
@@ -119,7 +119,7 @@ void CreateWorldDisamLab(string filename)
 	ground.setBase(Transformation3D(0,0,0));
 	for(i=0;i<vertex.size();i++)
 		ground.addVertex(vertex[i].x,vertex[i].y);
-	ground.setColor((float)0.6, (float)0.4, (float)0.4, 1);
+	ground.setColor(0.8f, 0.4f, 0.4f, 1.0f);
 	building->addFace(ground);
 	
 	Transformation3D trans;
@@ -134,7 +134,7 @@ void CreateWorldDisamLab(string filename)
 		listWall[i].addVertex(width,0);
 		listWall[i].addVertex(width,height);
 		listWall[i].addVertex(0,height);
-		listWall[i].setColor((float)0.9, (float)0.9, (float)0.5, (float)0.5);
+		listWall[i].setColor(0.9f, 0.9f, 0.5f, 1.0f);
 	}
 	
 	//The last wall is between the first vertex and last vertex
@@ -144,16 +144,16 @@ void CreateWorldDisamLab(string filename)
 	listWall[i].addVertex(width,0);
 	listWall[i].addVertex(width,height);
 	listWall[i].addVertex(0,height);
-	listWall[i].setColor((float)0.9, (float)0.9, (float)0.5, (float)1);
+	listWall[i].setColor(0.9f, 0.9f, 0.5f, 1.0f);
 
 	//Some walls are actually doors then the colour has to change
-	listWall[6].setColor((float)0.5, (float)0.5, (float)0.5, (float)1);
-	listWall[9].setColor((float)0.5, (float)0.5, (float)0.5, (float)1);
-	listWall[14].setColor((float)0.5, (float)0.5, (float)0.5, (float)1);
-	listWall[27].setColor((float)0.5, (float)0.5, (float)0.5, (float)1);
-	listWall[34].setColor((float)0.5, (float)0.5, (float)0.5, (float)1);
-	listWall[43].setColor((float)0.5, (float)0.5, (float)0.5, (float)1);
-	listWall[47].setColor((float)0.5, (float)0.5, (float)0.5, (float)1);
+	listWall[6].setColor(0.5f, 0.5f, 0.5f, 1.0f);
+	listWall[9].setColor(0.5f, 0.5f, 0.5f, 1.0f);
+	listWall[14].setColor(0.5f, 0.5f, 0.5f, 1.0f);
+	listWall[27].setColor(0.5f, 0.5f, 0.5f, 1.0f);
+	listWall[34].setColor(0.5f, 0.5f, 0.5f, 1.0f);
+	listWall[43].setColor(0.5f, 0.5f, 0.5f, 1.0f);
+	listWall[47].setColor(0.5f, 0.5f, 0.5f, 1.0f);
 	//Add the walls to the building
 	for (i=0; i<listWall.size();i++)
 		building->addFace(listWall[i]);

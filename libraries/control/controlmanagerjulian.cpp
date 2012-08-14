@@ -29,7 +29,7 @@ void ControlManagerJulian::keyDown(unsigned char key)
 	else if(key=='c')
 	{
 		automaticControl=!automaticControl;
-		trajFollow.setNextGoal(0);
+		trajectory.setNextGoal(0);
 	}
 	else 
 	{
@@ -39,27 +39,36 @@ void ControlManagerJulian::keyDown(unsigned char key)
 void ControlManagerJulian::setPoseData(Pose3D& pose)
 {
 	this->pose=pose;
-	trajFollow.setPoseData(pose);
+	trajectory.setPoseData(pose);
 	reactive.setPoseData(pose);
+	replanner.setPoseData(pose);
 }
 void ControlManagerJulian::setLaserData(LaserData& laserData)
 {
 	this->laserData=laserData;
 	reactive.setLaserData(laserData);
+	replanner.setLaserData(laserData);
 }
 void ControlManagerJulian::computeSpeed()
 {
 	if(automaticControl)
 	{
-		if(trajFollow.getBlockReactive())
+		if(trajectory.getBlockReactive())
 		{
-			automaticControl=trajFollow.getSpeed(speed,rot);
+			automaticControl=trajectory.getSpeed(speed,rot);
 		}
 		else
 		{
 			if(reactive.compute())
-				trajFollow.addPoint(reactive.getNewPoint());
-			automaticControl=trajFollow.getSpeed(speed,rot);
+			{
+				double minLeftRange,minRightRange;
+				bool leftObstacle, frontObstacle, rightObstacle;
+				reactive.getObstaclesDistances(leftObstacle, frontObstacle, rightObstacle, minLeftRange, minRightRange);
+				replanner.setObstaclesDistances(leftObstacle, frontObstacle, rightObstacle, minLeftRange, minRightRange);
+				replanner.compute();
+				trajectory.addPoint(replanner.getNewPoint());
+			}
+			automaticControl=trajectory.getSpeed(speed,rot);
 		}
 	}
 
@@ -70,5 +79,5 @@ void ControlManagerJulian::computeSpeed()
 }
 void ControlManagerJulian::drawGL(void)
 {
-	trajFollow.drawGL();
+	trajectory.drawGL();
 }

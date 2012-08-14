@@ -10,9 +10,7 @@ ControlReactiveJulian::ControlReactiveJulian()
 	minLeftRange=100;
 	minFrontRange=100;
 	minRightRange=100;
-	limit=0.4;	//Tipically 0.6; if we use the simulator, set limit to 0.4
-	dist=0.5;	//Distance to the new point
-	newPoint=Vector2D(0,0);
+	maxDistanceObstacle=0.4;	//Tipically 0.6; if we use the simulator, set limit to 0.4
 	leftObstacle=false;
 	frontObstacle=false;
 	rightObstacle=false;
@@ -45,29 +43,13 @@ bool ControlReactiveJulian::compute(void)
 {
 	init();
 	computeLaserData();
-	if(minLeftRange<limit)
+	if(minLeftRange<maxDistanceObstacle)
 		leftObstacle=true;
-	if(minFrontRange<limit)
+	if(minFrontRange<maxDistanceObstacle)
 		frontObstacle=true;
-	if(minRightRange<limit)
+	if(minRightRange<maxDistanceObstacle)
 		rightObstacle=true;
 
-	if (frontObstacle)
-	{
-		if(leftObstacle && !rightObstacle)	//turn right
-			newPoint=getRightPoint();
-		else if (rightObstacle && !leftObstacle)	//turn left
-			newPoint=getLeftPoint();
-		else if	(!rightObstacle && !leftObstacle)//choose the best option left/right
-		{
-			if(minLeftRange<minRightRange)//turn right
-				newPoint=getRightPoint();
-			else
-				newPoint=getLeftPoint();
-		}
-		else
-			LOG_ERROR("ERROR: Robot stucked! ");
-	}
 	return frontObstacle;
 }
 //Calculate max/min distances at left/front/right
@@ -125,37 +107,11 @@ void ControlReactiveJulian::computeLaserData(void)
 			minLeftRange=leftRanges[i];
 	}
 }
-//Get a good point at the right of the actual position
-Vector2D ControlReactiveJulian::getRightPoint(void)
+void ControlReactiveJulian::getObstaclesDistances(bool& leftObstacle, bool& frontObstacle, bool& rightObstacle, double& minLeftRange, double& minRightRange)
 {
-	Vector2D point=Vector2D(pose.position.x,pose.position.y);
-	double roll, pitch, yaw;
-	pose.orientation.getRPY(roll,pitch,yaw);
-	if(minRightRange<=1.0)
-		dist=minRightRange-(1.25*limit);
-	else if(minRightRange>=2.0)
-		dist=1.0;
-	else
-		dist=minRightRange/2.0;
-	point.x+=dist*sin(yaw);
-	point.y-=dist*cos(yaw);
-	LOG_INFO("New point: "<<dist<<"m (right)");
-	return point;
-}
-//Get a good point at the left of the actual position
-Vector2D ControlReactiveJulian::getLeftPoint(void)
-{
-	Vector2D point=Vector2D(pose.position.x,pose.position.y);
-	double roll, pitch, yaw;
-	pose.orientation.getRPY(roll,pitch,yaw);
-	if(minLeftRange<=1.0)
-		dist=minLeftRange-(1.25*limit);
-	else if(minLeftRange>=2.0)
-		dist=1.0;
-	else
-		dist=minLeftRange/2.0;
-	point.x-=dist*sin(yaw);
-	point.y+=dist*cos(yaw);
-	LOG_INFO("New point: "<<dist<<"m (left)");
-	return point;
+	leftObstacle= this->leftObstacle;
+	frontObstacle= this->frontObstacle;
+	rightObstacle= this->rightObstacle;
+	minLeftRange= this->minLeftRange;
+	minRightRange= this->minRightRange;
 }

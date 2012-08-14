@@ -6,6 +6,7 @@
 #include <vector>
 #include "controltrajectoryjulian.h"
 #include "controlreactivejulian.h"
+#include "controlreplannerjulian.h"
 
 using namespace mr;
 using namespace std;
@@ -28,8 +29,9 @@ private:
 	float speed,rot;
 	float maxSpeed,maxRot;
 	bool automaticControl;
-	ControlTrajectoryJulian	trajFollow;
+	ControlTrajectoryJulian	trajectory;
 	ControlReactiveJulian	reactive;
+	ControlReplannerJulian	replanner;
 	Pose3D		pose;
 	LaserData	laserData;
 
