@@ -19,7 +19,7 @@ public:
 	void setErrors(float degrees=8, float meters=0.2);
 	void drawGL(void);
 	void addPoint(Vector2D newPoint);
-	bool getBlockReactive(void){return blockReactive;}
+	bool getBlockReplanner(void){return blockReplanner;}
 	Path3D path;
 
 protected:
@@ -32,5 +32,5 @@ private:
 	
 	int nextGoal;
 	float maxAngleError, maxDistanceError;
-	bool blockReactive;
+	bool blockReplanner;
 };

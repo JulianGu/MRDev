@@ -42,7 +42,7 @@ bool ControlTrajectoryJulian::computeSpeed()
 	changeRange(diffAng);
 	if(error.module()<maxDistanceError)	//near final point
 	{
-		blockReactive=false;
+		blockReplanner=false;
 		speed=0.0;
 		rot=0.0;
 		++nextGoal;
@@ -53,7 +53,7 @@ bool ControlTrajectoryJulian::computeSpeed()
 	}
 	if (abs(diffAng)>=maxAngleError)	//too orientation error
 	{
-		blockReactive=true;
+		blockReplanner=true;
 		speed=0.0;
 		if(diffAng>=0)
 			rot=-0.3;
@@ -62,7 +62,7 @@ bool ControlTrajectoryJulian::computeSpeed()
 	}
 	else
 	{
-		blockReactive=false;
+		blockReplanner=false;
 		rot=-0.9*diffAng;
 		speed=0.3;	//too distance error
 	}

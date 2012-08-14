@@ -65,17 +65,17 @@ void ControlReactiveJulian::computeLaserData(void)
 	//Divide data into 3 packets. Angles->[-90,-30](-30,30)[30,90]
 	for(int i=0;i<angles.size();i++)
 	{
-		if(angles[i]<=(-45*DEG2RAD))
+		if(angles[i]<=(-30*DEG2RAD))
 		{
 			rightRanges.push_back(ranges[i]);
 			rightAngles.push_back(angles[i]);
 		}
-		else if (angles[i]>(-45*DEG2RAD) && angles[i]<(45*DEG2RAD))
+		else if (angles[i]>(-30*DEG2RAD) && angles[i]<(30*DEG2RAD))
 		{
 			frontRanges.push_back(ranges[i]);
 			frontAngles.push_back(angles[i]);
 		}
-		else if (angles[i]>=(45*DEG2RAD))
+		else if (angles[i]>=(30*DEG2RAD))
 		{
 			leftRanges.push_back(ranges[i]);
 			leftAngles.push_back(angles[i]);
@@ -90,21 +90,30 @@ void ControlReactiveJulian::computeLaserData(void)
 		if(rightRanges[i]>maxRightRange)
 			maxRightRange=rightRanges[i];
 		if(rightRanges[i]<minRightRange)
+		{
 			minRightRange=rightRanges[i];
+			minRightAngle=rightAngles[i];
+		}
 	}
 	for(i=0;i<frontRanges.size();i++)
 	{
 		if(frontRanges[i]>maxFrontRange)
 			maxFrontRange=frontRanges[i];
 		if(frontRanges[i]<minFrontRange)
+		{
 			minFrontRange=frontRanges[i];
+			minFrontAngle=frontAngles[i];
+		}
 	}
 	for(i=0;i<leftRanges.size();i++)
 	{
 		if(leftRanges[i]>maxLeftRange)
 			maxLeftRange=leftRanges[i];
 		if(leftRanges[i]<minLeftRange)
+		{
 			minLeftRange=leftRanges[i];
+			minLeftAngle=leftAngles[i];
+		}
 	}
 }
 void ControlReactiveJulian::getObstaclesDistances(bool& leftObstacle, bool& frontObstacle, bool& rightObstacle, double& minLeftRange, double& minRightRange)
@@ -114,4 +123,61 @@ void ControlReactiveJulian::getObstaclesDistances(bool& leftObstacle, bool& fron
 	rightObstacle= this->rightObstacle;
 	minLeftRange= this->minLeftRange;
 	minRightRange= this->minRightRange;
+}
+bool ControlReactiveJulian::getSpeed(float& speed,float& rot)
+{
+	bool ret=compute();
+	Angle angNearestObject;
+	double distNearestObject;
+	if(minLeftRange<=minFrontRange && minLeftRange<=minRightRange)
+	{
+		angNearestObject=minLeftAngle;
+		distNearestObject=minLeftRange;
+	}
+	else if (minFrontRange<=minLeftRange && minFrontRange<=minRightRange)
+	{
+		angNearestObject=minFrontAngle;
+		distNearestObject=minFrontRange;
+	}
+	else if (minRightRange<=minLeftRange && minRightRange<=minFrontRange)
+	{
+		angNearestObject=minRightAngle;
+		distNearestObject=minRightRange;
+	}
+	else
+	{
+		LOG_ERROR("ERROR: calculating nearest object ");
+		return ret;
+	}
+	//modify speed
+	double minDist=1.0, maxDist=2.0;
+	if(distNearestObject<=minDist)
+	{
+		speed=0.5*speed;	//50%
+		//LOG_INFO("Reactive speed: <50%");
+	}
+	else if (distNearestObject>=maxDist)
+	{
+		speed=1.0*speed;	//100%
+		//LOG_INFO("Reactive speed: >100%");
+	}
+	else
+	{
+		speed=(((distNearestObject-minDist)/maxDist)+0.5)*speed;
+		LOG_INFO("Reactive speed: "<<speed);
+	}
+
+	//modify rot
+	double K=0.15;
+	if(angNearestObject.getValue()>0.0)
+	{
+		rot-=K*(angNearestObject.getValue()-90*DEG2RAD);
+		//LOG_INFO("Reactive rot (>0): "<<rot);
+	}
+	else
+	{
+		rot+=K*(-angNearestObject.getValue()-90*DEG2RAD);
+		//LOG_INFO("Reactive rot (<0): "<<rot);
+	}
+	return ret;
 }

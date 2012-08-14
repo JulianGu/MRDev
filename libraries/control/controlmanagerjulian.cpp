@@ -53,22 +53,20 @@ void ControlManagerJulian::computeSpeed()
 {
 	if(automaticControl)
 	{
-		if(trajectory.getBlockReactive())
+		automaticControl=trajectory.getSpeed(speed,rot);
+		if(reactive.getSpeed(speed,rot) && !trajectory.getBlockReplanner())
 		{
-			automaticControl=trajectory.getSpeed(speed,rot);
+			double minLeftRange,minRightRange;
+			bool leftObstacle, frontObstacle, rightObstacle;
+			reactive.getObstaclesDistances(leftObstacle, frontObstacle, rightObstacle, minLeftRange, minRightRange);
+			replanner.setObstaclesDistances(leftObstacle, frontObstacle, rightObstacle, minLeftRange, minRightRange);
+			replanner.compute();
+			trajectory.addPoint(replanner.getNewPoint());
 		}
-		else
+		if(!automaticControl)
 		{
-			if(reactive.compute())
-			{
-				double minLeftRange,minRightRange;
-				bool leftObstacle, frontObstacle, rightObstacle;
-				reactive.getObstaclesDistances(leftObstacle, frontObstacle, rightObstacle, minLeftRange, minRightRange);
-				replanner.setObstaclesDistances(leftObstacle, frontObstacle, rightObstacle, minLeftRange, minRightRange);
-				replanner.compute();
-				trajectory.addPoint(replanner.getNewPoint());
-			}
-			automaticControl=trajectory.getSpeed(speed,rot);
+			speed=0.0;
+			rot=0.0;
 		}
 	}
 
