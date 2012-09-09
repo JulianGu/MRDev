@@ -11,7 +11,7 @@ ControlReplannerJulian::ControlReplannerJulian()
 	leftObstacle=false;
 	frontObstacle=false;
 	rightObstacle=false;
-	maxDistanceObstacle=0.4;	//Tipically 0.6; if we use the simulator, set limit to 0.4
+	maxDistanceObstacle=0.5;
 }
 void ControlReplannerJulian::setLaserData(LaserData laserData)
 {

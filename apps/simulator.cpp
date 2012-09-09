@@ -1,6 +1,7 @@
 #include "mrcore/mrcore.h"
 #include <iostream>
 #include "mrcoreglutapp.h"
+#include <WinCon.h>
 
 using namespace mr;
 using namespace std;
@@ -11,9 +12,13 @@ public:
 	SimulatorApp(string name,Simulator& s):MRCoreGlutApp(name),simulator(s)
 	{
 		scene.addObject(simulator.getWorld());
-		scene.SetViewPoint(35,160,25);	
-		scene.BackgroundColor(0.5,0.5,0.5);
-		numRobot=-1;
+		scene.SetViewPoint(8,180,80);
+		Pose3D t;
+		simulator.getRobot(0)->getPose3D(t);
+		scene.SetViewCenter(t.position.x,t.position.y,t.position.z);
+		scene.BackgroundColor(0.3,0.3,0.3);
+
+		numRobot=0;
 	}
 	void Draw(void)
 	{
@@ -56,6 +61,7 @@ private:
 void printUsage();
 int main(int argc,char* argv[])
 {
+
 	mrcoreInit();
 
 	string file;

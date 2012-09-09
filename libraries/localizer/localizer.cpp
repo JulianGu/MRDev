@@ -47,7 +47,7 @@ void Localizer::drawGL(void)
 	//for(unsigned int i=0;i<particles.size();i++)
 	//	particles[i].drawGL();
 
-	estimatedPose.drawGL();
+	//estimatedPose.drawGL();
 	glPushMatrix();
 		estimatedPose.transformGL();
 		offset.transformGL();
@@ -58,9 +58,9 @@ void Localizer::drawGL(void)
 
 	glPushMatrix();
 	glTranslatef(0,0,0.05);
-	odomTraj.drawGL();
+	//odomTraj.drawGL();
 	glTranslatef(0,0,0.05);
-	filterTraj.drawGL();
+	//filterTraj.drawGL();
 	glPopMatrix();
 }
 void Localizer::printInfo()

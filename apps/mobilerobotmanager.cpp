@@ -30,13 +30,15 @@ bool MobileRobotManager::step()
 	Odometry odom;
 	LaserData laserData;
 	
-	if(robot->getOdometry(odom)){	
+	if(robot->getOdometry(odom))
+	{	
 		robot->getPose3D(realPose);
 		control.setPoseData(realPose);
 		groundTraj.push_back(realPose.position);
 
 		static Odometry lastOdom=odom;
 		double noise=0.05;
+		//double noise=0.0;
 		Pose3D inc=odom.getIncrement(lastOdom,noise);
 		lastOdom=odom;
 		localizer.move(inc,noise);
@@ -47,7 +49,8 @@ bool MobileRobotManager::step()
 		return false;
 	}
 
-	if(robot->getLaserData(laserData)){
+	if(robot->getLaserData(laserData))
+	{
 		localizer.observe(laserData);
 		control.setLaserData(laserData);
 	}
@@ -59,11 +62,11 @@ bool MobileRobotManager::step()
 	localizer.resample();
 	Pose3D localizerPose=localizer.getEstimatedPose();
 	//control.setPoseData(localizerPose);
-	robotViz->setAbsoluteT3D(localizerPose);
+	robotViz->setAbsoluteT3D(realPose);
 }			
 float MobileRobotManager::getError()
 {
-	//Pose3D realPose=localizer.getEstimatedPose();
+	Pose3D realPose=localizer.getEstimatedPose();
 	Pose3D correctedPose=robotViz->getAbsoluteT3D();			       
 	Pose3D rel = realPose.inverted()*correctedPose;
 	double dis = rel.module();

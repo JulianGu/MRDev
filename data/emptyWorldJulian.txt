@@ -1,0 +1,4 @@
+world: 		emptyWorld.world 
+robot: 		nemo
+initPose: 	8.0 8.0 0 0
+connect: 	tcp 127.0.0.1 13000

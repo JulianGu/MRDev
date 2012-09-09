@@ -1,0 +1,8 @@
+world: emptyWorld.world
+robots: 1
+nemo 13000 8.0 8.0 0 0
+persons: 0
+#noname	1.7 7 2 0.1
+#noname  1.8 1 1 0.1
+#noname  1.2 3 3 0.1
+#noname  1.6 4.5 8 0.1

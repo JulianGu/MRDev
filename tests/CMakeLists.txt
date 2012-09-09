@@ -3,7 +3,7 @@ ADD_DEFINITIONS(-DFREEGLUT_STATIC -D_CRT_SECURE_NO_WARNINGS)
 ENDIF(WIN32)
 
 #ADD_EXECUTABLE(worldTest worldTest.cpp worlds/euitiworld.cpp worlds/building.cpp worlds/disamworld.cpp worlds/feria.cpp)
-ADD_EXECUTABLE(worldTest worldTest.cpp worlds/euitiworld.cpp worlds/building.cpp worlds/disamworld.cpp worlds/feria.cpp)
+ADD_EXECUTABLE(worldTest worldTest.cpp worlds/euitiworld.cpp worlds/building.cpp worlds/disamworld.cpp worlds/feria.cpp worlds/emptyworld.cpp)
 
 
 IF(WIN32)	

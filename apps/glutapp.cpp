@@ -73,7 +73,9 @@ GlutApp::GlutApp(string name)
 		int argc=1;
 		char* argv[1]={"Glut Application"};
 		glutInit(&argc, argv);
-		glutInitWindowSize(800,600);
+		glutInitWindowPosition(0,0);
+		//glutInitWindowSize(800,600);
+		glutInitWindowSize(670,500);
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 		glutCreateWindow(name.c_str());
 

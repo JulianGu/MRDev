@@ -13,8 +13,14 @@ class RobotManagerApp: public MRCoreGlutApp
 public:
 	RobotManagerApp(string name,MobileRobotManager& m):MRCoreGlutApp(name), manager(m)
 	{	
+		scene.SetViewPoint(8,180,80);
+		Pose3D t;
+		t=m.realPose;
+		scene.SetViewCenter(t.position.x,t.position.y,t.position.z);
+		scene.BackgroundColor(0.3,0.3,0.3);
+
 		useTimer=true;
-		numRobot=-1;
+		numRobot=0;
 	}
 	virtual ~RobotManagerApp()
 	{	
@@ -23,7 +29,7 @@ public:
 	{	
 		if(numRobot==0)
 		{
-			Transformation3D t=manager.getRobotPose();
+			Transformation3D t=manager.realPose;
 
 			scene.SetViewCenter(t.position.x,t.position.y,t.position.z);
 			double dist,alfa,beta;

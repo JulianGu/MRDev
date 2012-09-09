@@ -36,6 +36,7 @@ void CreateWorldEuitiLab(string filename);
 void CreateWorldBuilding(string filename);
 void CreateWorldRobocityFair(string filename);
 void CreateWorldDisamLab(string filename);
+void CreateEmptyWorld(string filename);
 
 void InitWorld1();
 void InitWorldColumns();
@@ -63,12 +64,14 @@ int main(int argc, char* argv[])
 
 //	string filename="data/building.world";
 //	string filename="data/euitilab.world";
-	string filename="data/disamLab.world";
+//	string filename="data/disamLab.world";
 //	string filename="data/robocity.world";
+	string filename="data/emptyWorld.world";
 
+	CreateEmptyWorld(filename);
 //	CreateWorldRobocityFair(filename);
 //	CreateWorldEuitiLab(filename);
-	CreateWorldDisamLab(filename);
+//	CreateWorldDisamLab(filename);
 //	CreateWorldBuilding(filename);
 	StreamFile myfile(filename,true);
 	myfile.read(&world);

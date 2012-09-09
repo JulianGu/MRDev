@@ -150,34 +150,23 @@ bool ControlReactiveJulian::getSpeed(float& speed,float& rot)
 		return ret;
 	}
 	//modify speed
+	double K1=0.25;
+	double K2=K1/2.0;
 	double minDist=1.0, maxDist=2.0;
-	if(distNearestObject<=minDist)
+	if(distNearestObject<=minDist)	//extremely near
 	{
-		speed=0.5*speed;	//50%
-		//LOG_INFO("Reactive speed: <50%");
+		speed*=0.5;	//50% of initial speed
+		if(angNearestObject.getValue()>0.0)
+			rot-=K1*(1-(angNearestObject.getValue()*RAD2DEG/90.0));
+		else
+			rot+=K1*(1+(angNearestObject.getValue()*RAD2DEG/90.0));
 	}
-	else if (distNearestObject>=maxDist)
+	else if (distNearestObject>=minDist && distNearestObject<=maxDist)
 	{
-		speed=1.0*speed;	//100%
-		//LOG_INFO("Reactive speed: >100%");
-	}
-	else
-	{
-		speed=(((distNearestObject-minDist)/maxDist)+0.5)*speed;
-		LOG_INFO("Reactive speed: "<<speed);
-	}
-
-	//modify rot
-	double K=0.15;
-	if(angNearestObject.getValue()>0.0)
-	{
-		rot-=K*(angNearestObject.getValue()-90*DEG2RAD);
-		//LOG_INFO("Reactive rot (>0): "<<rot);
-	}
-	else
-	{
-		rot+=K*(-angNearestObject.getValue()-90*DEG2RAD);
-		//LOG_INFO("Reactive rot (<0): "<<rot);
+		if(angNearestObject.getValue()>0.0)
+			rot-=K2*(1-(angNearestObject.getValue()*RAD2DEG/90.0));
+		else
+			rot+=K2*(1+(angNearestObject.getValue()*RAD2DEG/90.0));
 	}
 	return ret;
 }

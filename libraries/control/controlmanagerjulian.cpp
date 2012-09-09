@@ -54,6 +54,7 @@ void ControlManagerJulian::computeSpeed()
 	if(automaticControl)
 	{
 		automaticControl=trajectory.getSpeed(speed,rot);
+		//reactive.getSpeed(speed,rot);
 		if(reactive.getSpeed(speed,rot) && !trajectory.getBlockReplanner())
 		{
 			double minLeftRange,minRightRange;
