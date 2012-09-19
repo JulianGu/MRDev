@@ -8,7 +8,7 @@ ControlTrajectoryJulian::ControlTrajectoryJulian()
 	nextGoal=0;
 	speed=0;
 	rot=0;
-	path.setColor(255,0,255);
+	path.setColor(153,0,204);
 
 	//EmptyWorld path
 	double x=8.0, y=8.0;
@@ -83,6 +83,7 @@ void ControlTrajectoryJulian::setNextGoal(int next)
 void ControlTrajectoryJulian::drawGL()
 {
 	path.drawGL();
+	pose.drawGL();
 }
 void ControlTrajectoryJulian::setErrors(float degrees, float meters)
 {
@@ -103,5 +104,5 @@ void ControlTrajectoryJulian::addPoint(Vector2D newPoint)
 		copy[i]=path[i];
 	copy.insert(copy.begin()+nextGoal,Vector3D(newPoint.x,newPoint.y));
 	path=Path3D(copy);
-	path.setColor(255,0,255);
+	path.setColor(153,0,204);
 }
