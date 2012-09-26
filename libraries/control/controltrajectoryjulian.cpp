@@ -10,14 +10,25 @@ ControlTrajectoryJulian::ControlTrajectoryJulian()
 	rot=0;
 	path.setColor(153,0,204);
 
-	//EmptyWorld path
+	//EmptyWorld path 1
 	double x=8.0, y=8.0;
+	/*path.push_back(Vector3D(x,y));
+	path.push_back(Vector3D(x+4.0,y));
+	path.push_back(Vector3D(x+4.0,y+4.0));
+	path.push_back(Vector3D(x,y+4.0));
+	path.push_back(Vector3D(x,y));*/
+
+	//EmptyWorld path 2
 	path.push_back(Vector3D(x,y));
 	path.push_back(Vector3D(x+4.0,y));
 	path.push_back(Vector3D(x+4.0,y+4.0));
 	path.push_back(Vector3D(x,y+4.0));
-	path.push_back(Vector3D(x,y));
-		
+	path.push_back(Vector3D(x,y+1.0));
+	path.push_back(Vector3D(x+3.0,y+1.0));
+	path.push_back(Vector3D(x+3.0,y+3.0));
+	path.push_back(Vector3D(x+1.0,y+3.0));
+	path.push_back(Vector3D(x+1.0,y+2.0));
+	path.push_back(Vector3D(x+2.0,y+2.0));
 	//Disam path
 	/*double x=6.3, y=1.5;
 	path.push_back(Vector3D(x,y));
@@ -71,7 +82,7 @@ bool ControlTrajectoryJulian::computeSpeed()
 	else
 	{
 		blockReplanner=false;
-		rot=-0.9*diffAng;
+		rot=-1.1*diffAng;
 		speed=0.5;	//too distance error
 	}
 	return true;

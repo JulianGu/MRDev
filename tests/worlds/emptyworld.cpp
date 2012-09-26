@@ -71,13 +71,24 @@ void CreateEmptyWorld(string filename)
 	wall4.setBase(Transformation3D(20.0,0,0,Y_AXIS,-PI/2));
 	building->addFace(wall4);
 
-	vector<Face> obstacle;
+	vector<Face> obstacle01,obstacle02;
 	//createBox(2.0, 0.5, 0.5, Vector2D(12.5,8.5), obstacle);	//near corner
 	//createBox(2.0, 0.5, 0.5, Vector2D(11.25,9.75), obstacle);	//middle interior
 	//createBox(2.0, 0.5, 0.5, Vector2D(12.25,9.75), obstacle);	//middle exterior
-	createBox(2.0, 0.5, 0.5, Vector2D(11.75,9.75), obstacle);	//blocking path
-	for(int i=0; i<obstacle.size(); i++)
-		building->addFace(obstacle.at(i));
+	//createBox(2.0, 0.5, 0.5, Vector2D(11.75,9.75), obstacle);	//blocking path
+
+	//for reactive example
+	//createBox(2.0, 0.5, 0.5, Vector2D(11.25,9.75), obstacle01);
+	//createBox(2.0, 0.5, 0.5, Vector2D(9.75,12.25), obstacle02);
+
+	//for replanner example
+	createBox(2.0, 0.5, 0.5, Vector2D(11.75,9.75), obstacle01);
+	createBox(2.0, 0.5, 0.5, Vector2D(9.75,11.75), obstacle02);
+	for(int i=0; i<obstacle01.size(); i++)
+	{
+		building->addFace(obstacle01.at(i));
+		building->addFace(obstacle02.at(i));
+	}
 
 	world+=building;
 	StreamFile myfile(filename,false);
